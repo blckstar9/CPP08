@@ -1,0 +1,4 @@
+threads.db
+*.o
+ex00/easyfind
+skills/
