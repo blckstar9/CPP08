@@ -1,5 +1,6 @@
 #include "MutantStack.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <iostream>
 #include <iterator>

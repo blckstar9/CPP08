@@ -1,9 +1,6 @@
 #ifndef SPAN_HPP
 # define SPAN_HPP
 
-# include <algorithm>
-# include <iterator>
-# include <numeric>
 # include <stdexcept>
 # include <vector>
 
@@ -35,16 +32,17 @@ private:
 template <typename InputIterator>
 void	Span::addNumbers(InputIterator begin, InputIterator end)
 {
-	typename std::iterator_traits<InputIterator>::difference_type	count;
+	std::vector<int>	pending;
 
-	count = std::distance(begin, end);
-	if (count < 0)
-		throw std::invalid_argument("Span: invalid iterator range");
-	if (static_cast<unsigned long>(count)
-		> static_cast<unsigned long>(_capacity - _numbers.size()))
-		throw std::out_of_range("Span: not enough capacity for this range");
-	_numbers.reserve(_numbers.size() + static_cast<unsigned long>(count));
-	std::copy(begin, end, std::back_inserter(_numbers));
+	while (begin != end)
+	{
+		if (_numbers.size() + pending.size() >= _capacity)
+			throw std::out_of_range("Span: not enough capacity for this range");
+		pending.push_back(*begin);
+		++begin;
+	}
+	_numbers.reserve(_numbers.size() + pending.size());
+	_numbers.insert(_numbers.end(), pending.begin(), pending.end());
 }
 
 #endif

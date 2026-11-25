@@ -1,5 +1,6 @@
 #include "Span.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <stdexcept>
 
@@ -9,7 +10,6 @@ Span::Span() : _capacity(0), _numbers()
 
 Span::Span(unsigned int n) : _capacity(n), _numbers()
 {
-	_numbers.reserve(n);
 }
 
 Span::Span(const Span &other)

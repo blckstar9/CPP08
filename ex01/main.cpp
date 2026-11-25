@@ -2,7 +2,9 @@
 
 #include <climits>
 #include <iostream>
+#include <iterator>
 #include <list>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -232,6 +234,40 @@ static void	testRangeFromList(void)
 	check(thrown, "range add: full Span throws");
 }
 
+static void	testInputIterator(void)
+{
+	Span				span(4);
+	std::istringstream	input("4 8 15");
+
+	span.addNumbers(std::istream_iterator<int>(input),
+		std::istream_iterator<int>());
+	check(span.size() == 3, "input iterator: all values added");
+	checkSpans(span, 4, 11, "input iterator");
+}
+
+static void	testInputIteratorOverflow(void)
+{
+	Span				span(3);
+	std::istringstream	input("30 40");
+	bool				thrown;
+
+	span.addNumber(10);
+	span.addNumber(20);
+	thrown = false;
+	try
+	{
+		span.addNumbers(std::istream_iterator<int>(input),
+			std::istream_iterator<int>());
+	}
+	catch (const std::out_of_range &)
+	{
+		thrown = true;
+	}
+	check(thrown, "input iterator overflow: addNumbers throws");
+	check(span.size() == 2, "input iterator overflow: no partial insertion");
+	checkSpans(span, 10, 10, "input iterator overflow: existing data intact");
+}
+
 static void	testTenThousandNumbers(void)
 {
 	const unsigned int	count = 10000;
@@ -313,6 +349,8 @@ int	main(void)
 	testIntegerLimits();
 	testCapacity();
 	testRangeFromList();
+	testInputIterator();
+	testInputIteratorOverflow();
 	testTenThousandNumbers();
 	testCopyAndAssignment();
 
