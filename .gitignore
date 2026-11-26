@@ -2,3 +2,5 @@ threads.db
 *.o
 ex00/easyfind
 skills/
+ex01/span
+ex02/mutantstack
