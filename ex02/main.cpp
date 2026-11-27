@@ -130,7 +130,7 @@ static void	testCopyAndAssignment(void)
 	check(assigned.size() == 2, "assignment: pop on assigned stack");
 	check(source.size() == 3, "assignment: source is independent");
 
-	source = source;
+	{ MutantStack<int> &alias = source; source = alias; }
 	check(source.size() == 3, "self-assignment: size is unchanged");
 	check(source.top() == 3, "self-assignment: top is unchanged");
 

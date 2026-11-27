@@ -320,7 +320,7 @@ static void	testCopyAndAssignment(void)
 	check(assigned.size() == 3, "assignment: size is copied");
 	checkSpans(assigned, 4, 9, "assignment");
 
-	source = source;
+	{ Span &alias = source; source = alias; }
 	checkSpans(source, 4, 9, "self-assignment");
 
 	thrown = false;
